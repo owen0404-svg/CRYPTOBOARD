@@ -34,6 +34,8 @@ You can access the Live Demo Website here:
 
 - 🤖 AI Based BTC Trend Predictions
 
+- 📰 News Sentiment Analysis
+
 - 🧑🏻‍💻 Easy to use Technical Analysis Canvas
 
 - 🗣️ Community for Crypto enthusiasts
