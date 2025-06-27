@@ -25,7 +25,7 @@ You can access the Presentation here:
 
 You can access the Live Demo Website here:
 
-🔗 [Crypto Board Demo](https://lp3jy-yqaaa-aaaai-q3xqa-cai.icp0.io/)
+🔗 [Crypto Board Demo](https://pvbkg-eaaaa-aaaao-a4lsa-cai.icp0.io/ai)
 
 ---
 
