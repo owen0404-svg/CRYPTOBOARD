@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tetris Game</title>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Client-side redirect from .html URL to clean route
+    (function() {
+      const htmlToRouteMap = {
+        '/index.html': '/home',
+        '/ai.html': '/ai',
+        '/browse.html': '/browse',
+        '/dash.html': '/dash',
+        '/notes.html': '/notes',
+        '/plinko.html': '/plinko',
+        '/roadmap.html': '/roadmap',
+        '/shorts.html': '/shorts',
+        '/skibidi.html': '/community',
+        '/tetris.html': '/tetris',
+        '/track.html': '/tracker'
+      };
+      const currentPath = window.location.pathname;
+      if (htmlToRouteMap[currentPath]) {
+        window.history.replaceState(null, '', htmlToRouteMap[currentPath]);
+      }
+    })();
+  </script>
+  <style>
+    #logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px; /* or whatever size fits */
+  height: auto;
+  z-index: 10;
+}
+
+#score {
+  color: white;
+  font-family: monospace;
+  font-size: 24px;
+  position: absolute;
+  top: 20px;
+  left: 70px; /* shift score to the right of logo */
+}
+
+
+    html, body {
+  height: 100%;
+  margin: 0;
+  background: black;
+  display: flex;
+  flex-direction: column; /* ✅ added */
+  align-items: center;
+  justify-content: flex-start; /* ✅ changed from center */
+   /* ✅ limit horizontal scroll */
+}
+    canvas {
+      border: 1px solid white;
+    }
+    #restartBtn {
+      margin-top: 1rem; /* ✅ add spacing manually */
+      font-size: 16px;
+    }
+    #difficulty {
+      margin-top: 1rem; /* ✅ add spacing manually */
+      display: flex;
+      gap: 0.5rem;
+    }
+    #difficulty button {
+      font-size: 14px;
+      margin-right: 5px;
+    }
+    #preview {
+      margin-top: 0rem;
+      background: #222;
+    }
+    #gameAndPreview {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem; /* space between game and preview */
+      margin-top: 1rem;
+    }
+    #gameContainer {
+  max-width: 100vw;       /* prevent content from going beyond the viewport */
+       /* prevent internal scroll */
+  position: relative;     /* make absolute children like #logo relative to this */
+}
+
+    ::-moz-selection { background: #00f0ff44; }
+
+    ::selection { background: #00f0ff44; }
+  
+    footer a {
+    color: #aaa;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  footer a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <div id="score">Score: 0</div>
+    <button style="background: white; color: black;" id="restartBtn">Restart</button>
+    <div id="difficulty">
+      <button style="background: white; color: black;" onclick="setDifficulty(800)">Easy</button>
+      <button style="background: white; color: black;" onclick="setDifficulty(500)">Medium</button>
+      <button style="background: white; color: black;" onclick="setDifficulty(250)">Hard</button>
+    </div>
+    <div id="gameAndPreview">
+      <canvas id="game" width="320" height="640"></canvas>
+      <canvas id="preview" width="128" height="128"></canvas>
+    </div>
+  </div>
+
+
+<script>
+const canvas = document.getElementById('game');
+const context = canvas.getContext('2d');
+const previewCanvas = document.getElementById('preview');
+const previewCtx = previewCanvas.getContext('2d');
+
+const grid = 32;
+const tetrominoSequence = [];
+const playfield = [];
+const scoreElement = document.getElementById('score');
+let score = 0;
+
+for (let row = -2; row < 20; row++) {
+  playfield[row] = [];
+  for (let col = 0; col < 10; col++) {
+    playfield[row][col] = 0;
+  }
+}
+
+const tetrominos = {
+  'I': [[0,0,0,0],[1,1,1,1],[0,0,0,0],[0,0,0,0]],
+  'J': [[1,0,0],[1,1,1],[0,0,0]],
+  'L': [[0,0,1],[1,1,1],[0,0,0]],
+  'O': [[1,1],[1,1]],
+  'S': [[0,1,1],[1,1,0],[0,0,0]],
+  'Z': [[1,1,0],[0,1,1],[0,0,0]],
+  'T': [[0,1,0],[1,1,1],[0,0,0]]
+};
+
+const colors = {
+  'I': 'cyan', 'O': 'yellow', 'T': 'purple',
+  'S': 'green', 'Z': 'red', 'J': 'blue', 'L': 'orange'
+};
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateSequence() {
+  const sequence = ['I','J','L','O','S','T','Z'];
+  while (sequence.length) {
+    const rand = getRandomInt(0, sequence.length - 1);
+    tetrominoSequence.push(sequence.splice(rand, 1)[0]);
+  }
+}
+
+function createTetromino(name) {
+  const matrix = tetrominos[name];
+  const col = Math.floor(playfield[0].length / 2 - Math.ceil(matrix[0].length / 2));
+  const row = name === 'I' ? -1 : -2;
+  return { name, matrix, row, col };
+}
+
+let nextTetromino = null;
+function getNextTetromino() {
+  if (!tetrominoSequence.length) generateSequence();
+  if (!nextTetromino) nextTetromino = createTetromino(tetrominoSequence.pop());
+  const current = nextTetromino;
+  nextTetromino = createTetromino(tetrominoSequence.pop());
+  drawPreview(nextTetromino);
+  return current;
+}
+
+function drawPreview(tetro) {
+  previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+  previewCtx.fillStyle = colors[tetro.name];
+
+  const size = grid * 0.6;
+  const offsetX = (previewCanvas.width - tetro.matrix[0].length * size) / 2;
+  const offsetY = (previewCanvas.height - tetro.matrix.length * size) / 2;
+
+  for (let row = 0; row < tetro.matrix.length; row++) {
+    for (let col = 0; col < tetro.matrix[row].length; col++) {
+      if (tetro.matrix[row][col]) {
+        previewCtx.fillRect(offsetX + col * size, offsetY + row * size, size - 1, size - 1);
+      }
+    }
+  }
+}
+
+function rotate(matrix) {
+  const N = matrix.length - 1;
+  return matrix.map((row, i) =>
+    row.map((_, j) => matrix[N - j][i])
+  );
+}
+
+function isValidMove(matrix, cellRow, cellCol) {
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      if (matrix[row][col] && (
+        cellCol + col < 0 ||
+        cellCol + col >= playfield[0].length ||
+        cellRow + row >= playfield.length ||
+        playfield[cellRow + row]?.[cellCol + col])
+      ) return false;
+    }
+  }
+  return true;
+}
+
+function placeTetromino() {
+  for (let row = 0; row < tetromino.matrix.length; row++) {
+    for (let col = 0; col < tetromino.matrix[row].length; col++) {
+      if (tetromino.matrix[row][col]) {
+        if (tetromino.row + row < 0) return showGameOver();
+        playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
+      }
+    }
+  }
+
+  let linesCleared = 0;
+  for (let row = playfield.length - 1; row >= 0;) {
+    if (playfield[row].every(cell => !!cell)) {
+      linesCleared++;
+      for (let r = row; r >= 0; r--) {
+        for (let c = 0; c < playfield[r].length; c++) {
+          playfield[r][c] = playfield[r - 1]?.[c] || 0;
+        }
+      }
+    } else row--;
+  }
+
+  score += linesCleared * 100;
+  scoreElement.textContent = 'Score: ' + score;
+
+  tetromino = getNextTetromino();
+}
+
+function showGameOver() {
+  cancelAnimationFrame(rAF);
+  context.fillStyle = 'black';
+  context.globalAlpha = 0.75;
+  context.fillRect(0, canvas.height / 2 - 30, canvas.width, 60);
+  context.globalAlpha = 1;
+  context.fillStyle = 'white';
+  context.font = '36px monospace';
+  context.textAlign = 'center';
+  context.fillText('GAME OVER!', canvas.width / 2, canvas.height / 2);
+  gameOver = true;
+}
+
+function drawPlayfield() {
+  for (let row = 0; row < 20; row++) {
+    for (let col = 0; col < 10; col++) {
+      if (playfield[row][col]) {
+        context.fillStyle = colors[playfield[row][col]];
+        context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
+      }
+    }
+  }
+}
+
+function drawTetromino() {
+  if (!tetromino) return;
+  context.fillStyle = colors[tetromino.name];
+  for (let row = 0; row < tetromino.matrix.length; row++) {
+    for (let col = 0; col < tetromino.matrix[row].length; col++) {
+      if (tetromino.matrix[row][col]) {
+        context.fillRect((tetromino.col + col) * grid, (tetromino.row + row) * grid, grid - 1, grid - 1);
+      }
+    }
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (gameOver) return;
+
+  if (e.which === 37 || e.which === 39) {
+    const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
+    if (isValidMove(tetromino.matrix, tetromino.row, col)) tetromino.col = col;
+  }
+
+  if (e.which === 38) {
+    const rotated = rotate(tetromino.matrix);
+    if (isValidMove(rotated, tetromino.row, tetromino.col)) tetromino.matrix = rotated;
+  }
+
+  if (e.which === 40) {
+    const row = tetromino.row + 1;
+    if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
+      tetromino.row = row - 1;
+      placeTetromino();
+    } else tetromino.row = row;
+  }
+});
+
+let dropCounter = 0;
+let dropInterval = 500;
+let lastTime = 0;
+let tetromino = getNextTetromino();
+let gameOver = false;
+let rAF;
+
+function loop(time = 0) {
+  const deltaTime = time - lastTime;
+  lastTime = time;
+  dropCounter += deltaTime;
+
+  if (dropCounter > dropInterval) {
+    tetromino.row++;
+    dropCounter = 0;
+    if (!isValidMove(tetromino.matrix, tetromino.row, tetromino.col)) {
+      tetromino.row--;
+      placeTetromino();
+    }
+  }
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  drawPlayfield();
+  drawTetromino();
+  if (!gameOver) rAF = requestAnimationFrame(loop);
+}
+
+rAF = requestAnimationFrame(loop);
+
+// Restart Button Logic
+document.getElementById('restartBtn').addEventListener('click', () => {
+  for (let row = -2; row < 20; row++) {
+    playfield[row] = [];
+    for (let col = 0; col < 10; col++) {
+      playfield[row][col] = 0;
+    }
+  }
+
+  tetrominoSequence.length = 0;
+  nextTetromino = null;
+  tetromino = getNextTetromino();
+  dropCounter = 0;
+  lastTime = 0;
+  score = 0;
+  scoreElement.textContent = 'Score: 0';
+  gameOver = false;
+
+  cancelAnimationFrame(rAF);
+  rAF = requestAnimationFrame(loop);
+});
+
+// Difficulty Buttons
+function setDifficulty(ms) {
+  dropInterval = ms;
+  document.getElementById('restartBtn').click(); // simulate restart
+}
+
+
+document.querySelectorAll('*').forEach(el => {
+  if (el.scrollWidth > el.clientWidth) {
+    el.style.outline = '2px solid red';
+  }
+});
+
+</script>
+
+<footer style="width: 100%; margin-top: 4em; background: #000; color: #ccc; font-size: 0.9em; padding: 2em 1em 1em;">
+  
+  <!-- Top Links -->
+  <div style="border-bottom: 1px solid #333; padding-bottom: 1em; margin-bottom: 2em; text-align: center;">
+    <a href="index.html">Home</a>
+    <span style="color: #555;">|</span>
+    <a href="skibidi.html">Community</a>
+  </div>
+
+  <!-- Section Links -->
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3em; max-width: 1000px; margin: auto; text-align: left; border-bottom: 1px solid #333; padding-bottom: 2em;">
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Pages</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="skibidi.html">Community</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Features</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="browse.html">Crypto Browser</a></li>
+        <li><a href="notes.html">Personal Notes</a></li>
+        <li><a href="ai.html">AI BTC Price Predictor</a></li>
+        <li><a href="track.html">Crypto Tracker</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Other Services</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="shorts.html">Shorts</a></li>
+        <li><a href="dash.html">Games</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- App Store Buttons -->
+  <div style="display: flex; justify-content: center; align-items: center; gap: 1em; border-bottom: 1px solid #333; padding-bottom: 1em; margin-top: 2em; margin-bottom: 2em; flex-wrap: wrap;">
+    <span style="color: #555;"><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" alt="Youtube" style="height: 40px;"></a></span>
+    <span style="color: #555;"><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png" alt="Instagram" style="height: 40px;"></a></span>
+    <span style="color: #555;"><a href="#"><img src="https://www.pngplay.com/wp-content/uploads/9/TikTok-Logo-Transparent-Background.png" alt="Tiktok" style="height: 40px;"></a></span>
+  </div>
+
+
+  <!-- Copyright -->
+  <div style="text-align: center; color: #777; font-size: 0.8em; margin-top: 2em;">
+    &copy; 2025 Crypto Board — Built for Crypto Traders | Powered by 
+    <a href="https://www.coingecko.com" target="_blank" style="color: #0ff; text-decoration: none;"><u>CoinGecko</u></a>
+  </div>
+</footer>
+
+</body>
+</html>

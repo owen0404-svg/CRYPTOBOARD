@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-black text-white">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Board Home</title> 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      ::-moz-selection { background: #00f0ff44; }
+  
+    ::selection { background: #00f0ff44; }
+  
+    footer a {
+    color: #aaa;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  footer a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+    </style>
+  </head>
+  <body class="font-sans">
+
+    <!-- Improved Navbar -->
+<nav class="w-full fixed top-0 z-50 backdrop-blur bg-white/5 border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <h1 class="text-xl font-bold text-cyan-400">Crypto Board</h1>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex space-x-6 text-sm text-gray-300">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="ai.html" class="hover:text-white transition">AI Predictor</a>
+      <a href="track.html" class="hover:text-white transition">Crypto Tracker</a>
+      <a href="dash.html" class="hover:text-white transition">Dashboard</a>
+      <a href="skibidi.html" class="hover:text-white transition">Community</a>
+      
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menuBtn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
+    <a href="index.html" class="block py-2 text-sm text-gray-300 hover:text-white">Home</a>
+    <a href="ai.html" class="block py-2 text-sm text-gray-300 hover:text-white">AI Predictor</a>
+    <a href="track.html" class="block py-2 text-sm text-gray-300 hover:text-white">Crypto Tracker</a>
+    <a href="dash.html" class="block py-2 text-sm text-gray-300 hover:text-white">Dashboard</a>
+    <a href="skibidi.html" class="block py-2 text-sm text-gray-300 hover:text-white">Community</a>
+   
+  </div>
+</nav>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
+
+<!-- Hero -->
+<section class="relative min-h-screen flex items-center px-6">
+  <div class="max-w-7xl w-full mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <!-- Text Content -->
+    <div>
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
+        Blockchain-Based Voting System<br />for Trending Cryptocurrencies
+      </h1>
+      <p class="text-gray-300 text-lg md:text-xl mb-8">
+        Experience the future of secure, decentralized, onchain community polls for Crypto Market.
+      </p>
+    </div>
+
+    <!-- Image Content -->
+    <div class="relative w-full h-[350px] md:h-[500px]">
+      <div class="absolute inset-0 bg-gradient-to-tr from-green-500 via-blue-600 to-purple-600 rounded-3xl blur-3xl opacity-30 z-0"></div>
+      <img src="https://cliply.co/wp-content/uploads/2021/02/372102230_BITCOIN_400px.gif"
+           alt="3D Model"
+           class="relative w-full h-full object-contain z-10" />
+    </div>
+  </div>
+
+  <!-- Stats at Bottom -->
+  <div class="absolute bottom-8 left-0 w-full px-6">
+    <div class="max-w-4xl mx-auto flex justify-around text-center text-sm md:text-lg text-gray-300 bg-white/5 rounded-xl py-4 backdrop-blur-md">
+      <div>
+        <span class="block text-2xl font-bold text-white">100,000+</span>
+        Voting Traders
+      </div>
+      <div>
+        <span class="block text-2xl font-bold text-white">10,000+</span>
+        Crypto Picks
+      </div>
+      <div>
+        <span class="block text-2xl font-bold text-white">95%</span>
+        Profitable Votes
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Gallery -->
+    <section id="gallery" class="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-3 gap-8"></section>
+
+    <!-- Submission Form -->
+    <section id="submit" class="bg-white/5 py-20 px-6">
+      <h2 class="text-3xl font-bold text-center mb-6">Submit Your Top Crypto</h2>
+      <form id="cryptoForm" class="max-w-xl mx-auto space-y-4">
+        <input type="text" id="symbol" placeholder="Crypto Symbol (e.g. SOL)" required
+          class="w-full bg-black border border-white/10 rounded-lg px-4 py-2 text-white" />
+        <input type="text" id="summary" placeholder="Why is it your top pick?" required
+          class="w-full bg-black border border-white/10 rounded-lg px-4 py-2 text-white" />
+        <input type="text" id="tags" placeholder="Tags (comma separated)" required
+          class="w-full bg-black border border-white/10 rounded-lg px-4 py-2 text-white" />
+        <button type="submit"
+          class="w-full bg-cyan-500 text-black px-4 py-2 rounded-lg font-semibold hover:bg-cyan-400 transition">
+          Add to Gallery
+        </button>
+      </form>
+    </section>
+
+    <!-- Voting Section -->
+    <section id="vote" class="py-20 px-6 bg-gradient-to-b from-black via-gray-900 to-black">
+      <h2 class="text-4xl font-bold text-center mb-4">Vote for the Best Crypto</h2>
+      <p class="text-center text-gray-400 mb-12">Which one deserves the crown?</p>
+
+      <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <button onclick="vote('BTC')" class="vote-btn bg-white/5 hover:bg-white/10 p-6 rounded-lg border border-white/10 text-lg font-semibold">BTC</button>
+        <button onclick="vote('DAVECOIN')" class="vote-btn bg-white/5 hover:bg-white/10 p-6 rounded-lg border border-white/10 text-lg font-semibold">DAVECOIN</button>
+        <button onclick="vote('FARTCOIN')" class="vote-btn bg-white/5 hover:bg-white/10 p-6 rounded-lg border border-white/10 text-lg font-semibold">FARTCOIN</button>
+        <button onclick="vote('ETH')" class="vote-btn bg-white/5 hover:bg-white/10 p-6 rounded-lg border border-white/10 text-lg font-semibold">ETH</button>
+      </div>
+
+      <!-- Trending -->
+      <div class="mt-12 text-center">
+        <p class="text-gray-400 text-sm mb-2">Current Most Voted:</p>
+        <h3 id="topCrypto" class="text-5xl font-extrabold text-cyan-400 mb-6">BTC (0 votes)</h3>
+        <div class="max-w-2xl mx-auto">
+          <canvas id="voteChart" class="w-full"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 px-4 bg-gray-900 text-white">
+  <div class="max-w-3xl mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-4">🔥 Trending Coin</h2>
+    <div id="trendingCoin" class="bg-gray-800 rounded-xl shadow-lg p-6">
+      <p class="text-lg text-gray-400">Loading trending coin...</p>
+    </div>
+  </div>
+    </section>
+
+
+    
+
+    <!-- Script -->
+<script>
+  // Load or initialize posts
+  const savedPosts = localStorage.getItem("cryptoPosts");
+  const posts = savedPosts ? JSON.parse(savedPosts) : [
+    {
+      symbol: "SOL",
+      summary: "Fastest growing L1, insane TPS, backed by major projects.",
+      tags: ["Solana", "Layer 1", "DeFi"],
+      likes: 23,
+    },
+    {
+      symbol: "ICP",
+      summary: "The future of decentralized computing. Smart contracts that scale.",
+      tags: ["ICP", "Web3", "AI"],
+      likes: 52,
+    },
+    {
+      symbol: "LINK",
+      summary: "Crucial for real-world data in DeFi. Oracles FTW.",
+      tags: ["Chainlink", "Oracle", "DeFi"],
+      likes: 30,
+    }
+  ];
+
+  const gallery = document.querySelector("#gallery");
+
+  function renderPosts() {
+    gallery.innerHTML = "";
+    posts.forEach((post, i) => {
+      const el = document.createElement("div");
+      el.className = "bg-white/5 rounded-xl p-6 shadow hover:shadow-lg transition border border-white/10";
+
+      el.innerHTML = `
+        <h4 class="text-xl font-semibold mb-2">${post.symbol}</h4>
+        <p class="text-gray-400 mb-4 text-sm">${post.summary}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          ${post.tags.map(tag => `<span class="text-xs bg-white/10 px-2 py-1 rounded">${tag}</span>`).join("")}
+        </div>
+        <div class="flex justify-between items-center">
+          <button onclick="likePost(${i})" class="text-sm text-gray-300 hover:text-white">
+            ❤️ <span id="like-${i}">${post.likes}</span>
+          </button>
+          <button onclick="navigator.clipboard.writeText('${post.summary}')" class="text-cyan-400 hover:underline text-sm">
+            Copy Summary
+          </button>
+        </div>
+      `;
+      gallery.appendChild(el);
+    });
+  }
+
+  function savePosts() {
+    localStorage.setItem("cryptoPosts", JSON.stringify(posts));
+  }
+
+  function likePost(index) {
+    posts[index].likes++;
+    document.getElementById(`like-${index}`).innerText = posts[index].likes;
+    savePosts();
+  }
+
+  document.getElementById("cryptoForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const symbol = document.getElementById("symbol").value.trim();
+    const summary = document.getElementById("summary").value.trim();
+    const tags = document.getElementById("tags").value.split(",").map(t => t.trim());
+
+    posts.unshift({ symbol, summary, tags, likes: 0 });
+    renderPosts();
+    savePosts();
+
+    e.target.reset();
+    window.scrollTo({ top: gallery.offsetTop - 100, behavior: 'smooth' });
+  });
+
+  renderPosts();
+
+  // Votes
+  const savedVotes = JSON.parse(localStorage.getItem("cryptoVotes")) || {
+    BTC: 0,
+    DAVECOIN: 0,
+    FARTCOIN: 0,
+    ETH: 0
+  };
+
+  const votes = savedVotes;
+
+  function vote(symbol) {
+    votes[symbol]++;
+    localStorage.setItem("cryptoVotes", JSON.stringify(votes));
+    updateTopCrypto();
+    updateChart();
+  }
+
+  function updateTopCrypto() {
+    const top = Object.entries(votes).sort((a, b) => b[1] - a[1])[0];
+    document.getElementById("topCrypto").innerText = `${top[0]} (${top[1]} votes)`;
+  }
+
+  const ctx = document.getElementById('voteChart').getContext('2d');
+  const voteChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['BTC', 'DAVECOIN', 'FARTCOIN', 'ETH'],
+      datasets: [{
+        label: 'Votes',
+        data: [
+          votes.BTC,
+          votes.DAVECOIN,
+          votes.FARTCOIN,
+          votes.ETH
+        ],
+        backgroundColor: [
+          'rgba(0, 255, 255, 0.5)',
+          'rgba(0, 200, 255, 0.5)',
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(153, 102, 255, 0.5)'
+        ],
+        borderColor: [
+          'rgba(0, 255, 255, 1)',
+          'rgba(0, 200, 255, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(153, 102, 255, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1, color: 'white' },
+          grid: { color: 'rgba(255, 255, 255, 0.1)' }
+        },
+        x: {
+          ticks: { color: 'white' },
+          grid: { color: 'rgba(255, 255, 255, 0.05)' }
+        }
+      }
+    }
+  });
+
+  function updateChart() {
+    voteChart.data.datasets[0].data = [
+      votes.BTC,
+      votes.DAVECOIN,
+      votes.FARTCOIN,
+      votes.ETH
+    ];
+    voteChart.update();
+  }
+
+  updateTopCrypto();
+  updateChart();
+
+  // Trending Coin
+  async function fetchTrendingCoin() {
+    try {
+      const trendRes = await fetch("https://api.coingecko.com/api/v3/search/trending");
+      const trendData = await trendRes.json();
+      const topCoin = trendData.coins[0].item;
+      const coinId = topCoin.id;
+
+      const coinRes = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`);
+      const coinData = await coinRes.json();
+
+      const price = coinData.market_data.current_price.usd;
+      const change = coinData.market_data.price_change_percentage_24h.toFixed(2);
+      const volume = coinData.market_data.total_volume.usd;
+      const marketCap = coinData.market_data.market_cap.usd;
+      const isUp = change >= 0;
+
+      document.getElementById("trendingCoin").innerHTML = `
+        <h3 class="text-2xl font-semibold mb-2">${coinData.name} (${coinData.symbol.toUpperCase()})</h3>
+        <p class="text-xl text-green-400 mb-1">$${price.toLocaleString()}</p>
+        <p class="text-sm ${isUp ? 'text-green-400' : 'text-red-400'} mb-4">
+          ${isUp ? '▲' : '▼'} ${change}% (24h)
+        </p>
+        <p class="text-sm text-gray-300">💰 <strong>Market Cap:</strong> $${marketCap.toLocaleString()}</p>
+        <p class="text-sm text-gray-300">📊 <strong>24h Volume:</strong> $${volume.toLocaleString()}</p>
+      `;
+    } catch (err) {
+      console.error("Error fetching trending coin:", err);
+      document.getElementById("trendingCoin").innerHTML =
+        "<p class='text-red-500'>Failed to load trending coin.</p>";
+    }
+  }
+
+  fetchTrendingCoin();
+</script>
+
+
+<footer style="width: 100%; margin-top: 4em; background: #000; color: #ccc; font-size: 0.9em; padding: 2em 1em 1em;">
+  
+  <!-- Top Links -->
+  <div style="border-bottom: 1px solid #333; padding-bottom: 1em; margin-bottom: 2em; text-align: center;">
+    <a href="index.html">Home</a>
+    <span style="color: #555;">|</span>
+    <a href="skibidi.html">Community</a>
+  </div>
+
+  <!-- Section Links -->
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3em; max-width: 1000px; margin: auto; text-align: left; border-bottom: 1px solid #333; padding-bottom: 2em;">
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Pages</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="skibidi.html">Community</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Features</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="browse.html">Crypto Browser</a></li>
+        <li><a href="notes.html">Personal Notes</a></li>
+        <li><a href="ai.html">AI BTC Price Predictor</a></li>
+        <li><a href="track.html">Crypto Tracker</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Other Services</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="shorts.html">Shorts</a></li>
+        <li><a href="dash.html">Games</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- App Store Buttons -->
+  <div style="display: flex; justify-content: center; align-items: center; gap: 1em; border-bottom: 1px solid #333; padding-bottom: 1em; margin-top: 2em; margin-bottom: 2em; flex-wrap: wrap;">
+    <span style="color: #555;"><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" alt="Youtube" style="height: 40px;"></a></span>
+    <span style="color: #555;"><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png" alt="Instagram" style="height: 40px;"></a></span>
+    <span style="color: #555;"><a href="#"><img src="https://www.pngplay.com/wp-content/uploads/9/TikTok-Logo-Transparent-Background.png" alt="Tiktok" style="height: 40px;"></a></span>
+  </div>
+
+
+  <!-- Copyright -->
+  <div style="text-align: center; color: #777; font-size: 0.8em; margin-top: 2em;">
+    &copy; 2025 Crypto Board — Built for Crypto Traders | Powered by 
+    <a href="https://www.coingecko.com" target="_blank" style="color: #0ff; text-decoration: none;"><u>CoinGecko</u></a>
+  </div>
+</footer>
+
+
+
+  </body>
+</html>

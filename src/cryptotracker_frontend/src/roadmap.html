@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-black text-white">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Roadmap</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Client-side redirect from .html URL to clean route
+    (function() {
+      const htmlToRouteMap = {
+        '/index.html': '/home',
+        '/ai.html': '/ai',
+        '/browse.html': '/browse',
+        '/dash.html': '/dash',
+        '/notes.html': '/notes',
+        '/plinko.html': '/plinko',
+        '/roadmap.html': '/roadmap',
+        '/shorts.html': '/shorts',
+        '/skibidi.html': '/community',
+        '/tetris.html': '/tetris',
+        '/track.html': '/tracker'
+      };
+      const currentPath = window.location.pathname;
+      if (htmlToRouteMap[currentPath]) {
+        window.history.replaceState(null, '', htmlToRouteMap[currentPath]);
+      }
+    })();
+  </script>
+  <style>
+    ::selection { background: #00f0ff44; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-50%);
+    }
+    .timeline-dot {
+      position: absolute;
+      top: 1rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 9999px;
+      z-index: 10;
+    }
+    footer a {
+    color: #aaa;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    width: 100%;
+  }
+
+  footer a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+  </style>
+</head>
+
+<body class="font-sans">
+
+   <!-- Improved Navbar -->
+<nav class="w-full fixed top-0 z-50 backdrop-blur bg-white/5 border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <h1 class="text-xl font-bold text-cyan-400">Crypto Board</h1>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex space-x-6 text-sm text-gray-300">
+      <a href="index.html" class="hover:text-white transition">Home</a>
+      <a href="ai.html" class="hover:text-white transition">AI Predictor</a>
+      <a href="track.html" class="hover:text-white transition">Crypto Tracker</a>
+      <a href="dash.html" class="hover:text-white transition">Dashboard</a>
+      <a href="skibidi.html" class="hover:text-white transition">Community</a>
+      
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menuBtn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
+    <a href="index.html" class="block py-2 text-sm text-gray-300 hover:text-white">Home</a>
+    <a href="ai.html" class="block py-2 text-sm text-gray-300 hover:text-white">AI Predictor</a>
+    <a href="track.html" class="block py-2 text-sm text-gray-300 hover:text-white">Crypto Tracker</a>
+    <a href="dash.html" class="block py-2 text-sm text-gray-300 hover:text-white">Dashboard</a>
+    <a href="skibidi.html" class="block py-2 text-sm text-gray-300 hover:text-white">Community</a>
+   
+  </div>
+</nav>
+
+  <!-- Intro -->
+  <section class="pt-32 pb-12 px-6 max-w-5xl mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-4">📍 Roadmap</h2>
+    <p class="text-gray-400">
+      This website is designed to assist crypto traders in maximizing their profits by offering valuable insights,
+      curated market analysis, and practical tools tailored for smarter trading decisions—while also serving as a live demonstration of the capabilities of the Internet Computer Protocol (ICP).
+    </p>
+  </section>
+
+  <!-- Zigzag Timeline -->
+  <section class="px-6 max-w-4xl mx-auto relative timeline">
+    <div class="space-y-20">
+
+      <!-- Q1 Left -->
+      <div class="relative md:flex items-start">
+        <div class="md:w-1/2 pr-6 md:text-right">
+          <h3 class="text-xl font-bold text-cyan-300">Q1 – Our Objective</h3>
+          <p class="text-gray-400 mt-2">
+            Provide AI-powered crypto forecasts, price trackers, and curated data to help users make smarter trading decisions.
+          </p>
+        </div>
+        <div class="timeline-dot bg-cyan-400 animate-bounce left-1/2"></div>
+        <div class="md:w-1/2 hidden md:block"></div>
+      </div>
+
+      <!-- Q2 Right -->
+      <div class="relative md:flex items-start">
+        <div class="md:w-1/2 hidden md:block"></div>
+        <div class="timeline-dot bg-yellow-300 animate-bounce left-1/2"></div>
+        <div class="md:w-1/2 pl-6">
+          <h3 class="text-xl font-bold text-yellow-300">Q2 – Create A Community</h3>
+          <p class="text-gray-400 mt-2">
+            Unite crypto traders to share picks, vote on trends, and shape the platform together through onchain tools and open discussion.
+          </p>
+        </div>
+      </div>
+
+      <!-- Q3 Left -->
+      <div class="relative md:flex items-start">
+        <div class="md:w-1/2 pr-6 md:text-right">
+          <h3 class="text-xl font-bold text-green-300">Q3 – Visual Price Tracker</h3>
+          <p class="text-gray-400 mt-2">
+            Track real-time crypto prices with clean, interactive charts that help you spot trends and make smarter trades at a glance.
+          </p>
+        </div>
+        <div class="timeline-dot bg-green-400 animate-bounce left-1/2"></div>
+        <div class="md:w-1/2 hidden md:block"></div>
+      </div>
+
+      <!-- Q4 Right -->
+      <div class="relative md:flex items-start">
+        <div class="md:w-1/2 hidden md:block"></div>
+        <div class="timeline-dot bg-purple-400 animate-bounce left-1/2"></div>
+        <div class="md:w-1/2 pl-6">
+          <h3 class="text-xl font-bold text-purple-300">Q4 – With ICP</h3>
+          <p class="text-gray-400 mt-2">
+            The Internet Computer Protocol (ICP) enables fast, scalable, and secure decentralized apps—running entirely on-chain without traditional servers.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="width: 100%; margin-top: 4em; background: #000; color: #ccc; font-size: 0.9em; padding: 2em 1em 1em;">
+  
+  <!-- Top Links -->
+  <div style="border-bottom: 1px solid #333; padding-bottom: 1em; margin-bottom: 2em; text-align: center;">
+    <a href="index.html">Home</a>
+    <span style="color: #555;">|</span>
+    <a href="skibidi.html">Community</a>
+  </div>
+
+  <!-- Section Links -->
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3em; max-width: 1000px; margin: auto; text-align: left; border-bottom: 1px solid #333; padding-bottom: 2em;">
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Pages</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="skibidi.html">Community</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Features</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="browse.html">Crypto Browser</a></li>
+        <li><a href="notes.html">Personal Notes</a></li>
+        <li><a href="ai.html">AI BTC Price Predictor</a></li>
+        <li><a href="track.html">Crypto Tracker</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Other Services</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="shorts.html">Shorts</a></li>
+        <li><a href="dash.html">Games</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- App Store Buttons -->
+  <div style="display: flex; justify-content: center; align-items: center; gap: 1em; border-bottom: 1px solid #333; padding-bottom: 1em; margin-top: 2em; margin-bottom: 2em; flex-wrap: wrap;">
+    <span style="color: #555;"><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" alt="Youtube" style="height: 40px;"></a></span>
+    <span style="color: #555;"><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png" alt="Instagram" style="height: 40px;"></a></span>
+    <span style="color: #555;"><a href="https://www.pngplay.com/wp-content/uploads/9/TikTok-Logo-Transparent-Background.png" alt="Tiktok" style="height: 40px;"></a></span>
+  </div>
+
+
+  <!-- Copyright -->
+  <div style="text-align: center; color: #777; font-size: 0.8em; margin-top: 2em;">
+    &copy; 2025 Crypto Board — Built for Crypto Traders | Powered by 
+    <a href="https://www.coingecko.com" target="_blank" style="color: #0ff; text-decoration: none;"><u>CoinGecko</u></a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Client-side redirect from .html URL to clean route
+    (function() {
+      const htmlToRouteMap = {
+        '/index.html': '/home',
+        '/ai.html': '/ai',
+        '/browse.html': '/browse',
+        '/dash.html': '/dash',
+        '/notes.html': '/notes',
+        '/plinko.html': '/plinko',
+        '/roadmap.html': '/roadmap',
+        '/shorts.html': '/shorts',
+        '/skibidi.html': '/community',
+        '/tetris.html': '/tetris',
+        '/track.html': '/tracker'
+      };
+      const currentPath = window.location.pathname;
+      if (htmlToRouteMap[currentPath]) {
+        window.history.replaceState(null, '', htmlToRouteMap[currentPath]);
+      }
+    })();
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #0e0e0e;
+  color: #ffffff;
+  min-height: 100vh; /* allow content to grow */
+  overflow-x: hidden; /* prevent sideways scrolling */
+  overflow-y: auto;   /* allow vertical scroll */
+    }
+
+    .main-content {
+      display: flex;
+      height: calc(100vh - 80px);
+    }
+
+    .sidebar {
+      background-color: #1a1a1a;
+      width: 220px;
+      padding: 1rem;
+      border-right: 1px solid #333;
+      overflow-y: auto;
+    }
+
+    .sidebar h2 {
+      margin-top: 80px;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #00ffc8;
+    }
+
+    .note-list {
+      list-style: none;
+    }
+
+    .note-item {
+      padding: 0.5rem;
+      background: #0e0e0e;
+      border: 1px solid #333;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .note-item input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      width: 100%;
+      outline: none;
+    }
+
+    .note-item button {
+      background: transparent;
+      border: none;
+      color: red;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .add-note-btn {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      width: 100%;
+      background-color: #00ffc8;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .note-container {
+      flex: 1;
+      padding: 2rem;
+      animation: slideUp 0.8s ease-out;
+      margin-top: 80px;
+      overflow-y: auto;
+      
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #00ffc8;
+    }
+
+    textarea {
+      width: 100%;
+      height: 70vh;
+      padding: 1rem 1.5rem;
+      background: #0e0e0e;
+      border: 0px solid #333;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      resize: vertical;
+      outline: none;
+      white-space: pre-wrap;
+    }
+
+    textarea:focus {
+      border: 0px solid #00ffc8;
+    }
+
+    .save-message {
+      text-align: right;
+      font-size: 0.9rem;
+      color: #00ffc8;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .save-message.show {
+      opacity: 1;
+    }
+
+    ::selection {
+      background: #00f0ff44;
+    }
+
+    footer a {
+      color: #aaa;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    footer a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="w-full fixed top-0 z-50 backdrop-blur bg-white/5 border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold text-cyan-400">Crypto Board</h1>
+      <div class="hidden md:flex space-x-6 text-sm text-gray-300">
+        <a href="index.html" class="hover:text-white transition">Home</a>
+        <a href="ai.html" class="hover:text-white transition">AI Predictor</a>
+        <a href="track.html" class="hover:text-white transition">Crypto Tracker</a>
+        <a href="dash.html" class="hover:text-white transition">Dashboard</a>
+        <a href="skibidi.html" class="hover:text-white transition">Community</a>
+      </div>
+      <button id="menuBtn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <div id="mobileMenu" class="md:hidden hidden px-6 pb-4">
+      <a href="index.html" class="block py-2 text-sm text-gray-300 hover:text-white">Home</a>
+      <a href="ai.html" class="block py-2 text-sm text-gray-300 hover:text-white">AI Predictor</a>
+      <a href="track.html" class="block py-2 text-sm text-gray-300 hover:text-white">Crypto Tracker</a>
+      <a href="dash.html" class="block py-2 text-sm text-gray-300 hover:text-white">Dashboard</a>
+      <a href="skibidi.html" class="block py-2 text-sm text-gray-300 hover:text-white">Community</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="sidebar">
+      <h2>My Notes</h2>
+      <ul class="note-list" id="noteList"></ul>
+      <button class="add-note-btn" onclick="addNewNote()">+ New Note</button>
+      <div class="custom-coin-box" style="margin-top: 2rem; color: #ccc;">
+        <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #00ffc8;">Add Custom Coin</h3>
+        <input id="symbolInput" type="text" placeholder="Symbol (e.g. TRUMP)" style="width: 100%; padding: 0.4rem; margin-bottom: 0.4rem; border-radius: 4px; border: none; background: #0e0e0e; color: #fff;">
+        <input id="idInput" type="text" placeholder="CoinGecko ID (e.g. official-trump)" style="width: 100%; padding: 0.4rem; margin-bottom: 0.4rem; border-radius: 4px; border: none; background: #0e0e0e; color: #fff;">
+        <button onclick="addCoinSymbol()" style="width: 100%; background: #00ffc8; color: #000; border: none; padding: 0.4rem; border-radius: 4px; font-weight: bold;">Add Coin</button>
+      </div>
+    </div>
+    <div class="note-container">
+      <h1 id="noteTitle">QuickNotes</h1>
+      <textarea id="noteArea" placeholder="Start typing your notes..."></textarea>
+      <div class="save-message" id="saveMessage">Saved</div>
+    </div>
+  </div>
+
+  <footer style="width: 100%; margin-top: 4em; background: #000; color: #ccc; font-size: 0.9em; padding: 2em 1em 1em;">
+  
+  <!-- Top Links -->
+  <div style="border-bottom: 1px solid #333; padding-bottom: 1em; margin-bottom: 2em; text-align: center;">
+    <a href="index.html">Home</a>
+    <span style="color: #555;">|</span>
+    <a href="skibidi.html">Community</a>
+
+  </div>
+
+  <!-- Section Links -->
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 3em; max-width: 1000px; margin: auto; text-align: left; border-bottom: 1px solid #333; padding-bottom: 2em;">
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Pages</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="skibidi.html">Community</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Features</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="browse.html">Crypto Browser</a></li>
+        <li><a href="notes.html">Personal Notes</a></li>
+        <li><a href="ai.html">AI BTC Price Predictor</a></li>
+        <li><a href="track.html">Crypto Tracker</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <strong style="color: #fff; display: block; margin-bottom: 0.5em;">Other Services</strong>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li><a href="shorts.html">Shorts</a></li>
+        <li><a href="dash.html">Games</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- App Store Buttons -->
+  <div style="display: flex; justify-content: center; align-items: center; gap: 1em; border-bottom: 1px solid #333; padding-bottom: 1em; margin-top: 2em; margin-bottom: 2em; flex-wrap: wrap;">
+    <span style="color: #555;"><a href=""><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" alt="Youtube" style="height: 40px;"></a></span>
+    <span style="color: #555;"><a href=""><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/1200px-Instagram_icon.png" alt="Instagram" style="height: 40px;"></a></span>
+    <span style="color: #555;"><a href=""><img src="https://www.pngplay.com/wp-content/uploads/9/TikTok-Logo-Transparent-Background.png" alt="Tiktok" style="height: 40px;"></a></span>
+  </div>
+
+
+  <!-- Copyright -->
+  <div style="text-align: center; color: #777; font-size: 0.8em; margin-top: 2em;">
+    &copy; 2025 Crypto Board — Built for Crypto Traders | Powered by 
+    <a href="https://www.coingecko.com" target="_blank" style="color: #0ff; text-decoration: none;"><u>CoinGecko</u></a>
+  </div>
+</footer>
+
+<script>
+  
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  menuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+
+
+    let notes = JSON.parse(localStorage.getItem('notes')) || [];
+    let currentNoteId = localStorage.getItem('currentNoteId') || null;
+
+    const noteList = document.getElementById('noteList');
+    const noteArea = document.getElementById('noteArea');
+    const noteTitle = document.getElementById('noteTitle');
+    const saveMessage = document.getElementById('saveMessage');
+
+    function renderNoteList() {
+      noteList.innerHTML = '';
+      notes.forEach(note => {
+        const li = document.createElement('li');
+        li.className = 'note-item';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = note.title;
+        input.addEventListener('change', (e) => {
+          note.title = input.value;
+          saveNotes();
+          renderNoteList();
+        });
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '×';
+        deleteBtn.onclick = (e) => {
+          e.stopPropagation();
+          deleteNote(note.id);
+        };
+
+        li.onclick = () => selectNote(note.id);
+        li.appendChild(input);
+        li.appendChild(deleteBtn);
+        noteList.appendChild(li);
+      });
+    }
+
+    function addNewNote() {
+      const id = Date.now().toString();
+      const newNote = {
+        id,
+        title: 'Untitled Note',
+        content: ''
+      };
+      notes.push(newNote);
+      saveNotes();
+      renderNoteList();
+      selectNote(id);
+    }
+
+    function deleteNote(id) {
+      notes = notes.filter(note => note.id !== id);
+      if (currentNoteId === id) {
+        currentNoteId = null;
+        noteTitle.textContent = 'QuickNotes';
+        noteArea.value = '';
+        localStorage.removeItem('currentNoteId');
+      }
+      saveNotes();
+      renderNoteList();
+    }
+
+    function selectNote(id) {
+      currentNoteId = id;
+      const note = notes.find(n => n.id === id);
+      if (note) {
+        noteTitle.textContent = note.title;
+        noteArea.value = note.content;
+        localStorage.setItem('currentNoteId', id);
+      }
+    }
+
+    noteArea.addEventListener('input', () => {
+      const note = notes.find(n => n.id === currentNoteId);
+      if (note) {
+        note.content = noteArea.value;
+        saveNotes();
+        saveMessage.classList.add('show');
+        clearTimeout(saveMessage.timeout);
+        saveMessage.timeout = setTimeout(() => {
+          saveMessage.classList.remove('show');
+        }, 1000);
+      }
+    });
+
+    noteArea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const pos = noteArea.selectionStart;
+        const text = noteArea.value;
+        const before = text.slice(0, pos);
+        const after = text.slice(pos);
+        const lineStart = before.lastIndexOf('\n') + 1;
+        const currentLine = before.slice(lineStart);
+
+        const matchBullet = currentLine.match(/^(\s*)([-*])\s+/);
+        const matchNumbered = currentLine.match(/^(\s*)(\d+)\.\s+/);
+
+        if (matchBullet) {
+          e.preventDefault();
+          const prefix = matchBullet[1] + matchBullet[2] + ' ';
+          const newText = before + '\n' + prefix + after;
+          noteArea.value = newText;
+          noteArea.selectionStart = noteArea.selectionEnd = pos + prefix.length + 1;
+          noteArea.dispatchEvent(new Event('input'));
+        } else if (matchNumbered) {
+          e.preventDefault();
+          const indent = matchNumbered[1];
+          const number = parseInt(matchNumbered[2]) + 1;
+          const prefix = indent + number + '. ';
+          const newText = before + '\n' + prefix + after;
+          noteArea.value = newText;
+          noteArea.selectionStart = noteArea.selectionEnd = pos + prefix.length + 1;
+          noteArea.dispatchEvent(new Event('input'));
+        }
+      }
+    });
+
+    function saveNotes() {
+      localStorage.setItem('notes', JSON.stringify(notes));
+    }
+
+    renderNoteList();
+    if (currentNoteId) {
+      selectNote(currentNoteId);
+    }
+    
+    async function fetchCryptoPrice(symbol) {
+  try {
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${symbol}&vs_currencies=usd&include_24hr_change=true`);
+    const data = await response.json();
+    if (data[symbol] && data[symbol].usd && data[symbol].usd_24h_change !== undefined) {
+      const price = data[symbol].usd.toFixed(5);
+      const change = data[symbol].usd_24h_change.toFixed(2);
+      const changeStr = change >= 0 ? `+${change}%` : `${change}%`;
+      return `$${price} (${changeStr})`;
+    }
+  } catch (error) {
+    console.error("Error fetching crypto price:", error);
+  }
+  return "[Price unavailable]";
+}
+
+
+    let coinSymbolMap = JSON.parse(localStorage.getItem('coinSymbolMap')) || {
+  BTC: 'bitcoin',
+  ETH: 'ethereum',
+  DOGE: 'dogecoin',
+  BNB: 'binancecoin',
+  XRP: 'ripple',
+  ADA: 'cardano',
+  SOL: 'solana',
+  AVAX: 'avalanche-2'
+};
+
+function addCoinSymbol() {
+  const symbol = document.getElementById('symbolInput').value.trim().toUpperCase();
+  const id = document.getElementById('idInput').value.trim().toLowerCase();
+
+  if (symbol && id) {
+    coinSymbolMap[symbol] = id;
+    localStorage.setItem('coinSymbolMap', JSON.stringify(coinSymbolMap));
+    alert(`Added ${symbol}: ${id}`);
+    document.getElementById('symbolInput').value = '';
+    document.getElementById('idInput').value = '';
+  } else {
+    alert("Please enter both symbol and CoinGecko ID.");
+  }
+}
+
+    let lastContent = "";
+
+    noteArea.addEventListener('input', async (e) => {
+      // Only react to additions (not deletions)
+      if (noteArea.value.length < lastContent.length) {
+        lastContent = noteArea.value;
+        return;
+      }
+
+      const note = notes.find(n => n.id === currentNoteId);
+      if (note) {
+        let content = noteArea.value;
+
+        // Regex will ignore already replaced strings like "BTC price: $...."
+        const regex = /\b([A-Z]{2,5}) price\b(?!: \$\d+(\.\d+)?)/g;
+
+        let match;
+        while ((match = regex.exec(content)) !== null) {
+          const symbol = match[1];
+          const id = coinSymbolMap[symbol];
+          if (id) {
+            const price = await fetchCryptoPrice(id);
+            const priceText = `${symbol} price: ${price}`;
+            content = content.slice(0, match.index) + priceText + content.slice(match.index + match[0].length);
+            regex.lastIndex = match.index + priceText.length;
+          }
+        }
+
+        noteArea.value = content;
+        note.content = content;
+        saveNotes();
+        saveMessage.classList.add('show');
+        clearTimeout(saveMessage.timeout);
+        saveMessage.timeout = setTimeout(() => {
+          saveMessage.classList.remove('show');
+        }, 1000);
+
+        lastContent = content;
+      }
+    });
+  </script>
+
+</body>
+</html>

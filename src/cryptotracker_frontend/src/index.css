@@ -1,0 +1,683 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* === Base layout === */
+body {
+  background: #000000;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  margin: 3rem 0 0 0;
+  padding: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #0a0a0a;
+}
+
+.card {
+  font-family: 'Raleway', sans-serif;
+}
+
+/* Remove padding on body and app container for tracker.html */
+body.tracker-page {
+  padding: 0;
+}
+
+body.tracker-page .app {
+  padding: 0;
+}
+
+
+/* Scope navbar and footer styles to .navbar-footer-container to avoid interference */
+.navbar-footer-container nav {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.navbar-footer-container footer {
+  padding: 2em 1em 1em;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #0a0a0a;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem !important;
+  text-align: center;
+}
+
+/* Prevent h1 styling from affecting navbar Crypto Board */
+nav h1 {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: #22d3ee !important;
+  text-transform: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+/* === Grid & Cards === */
+.grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 1rem !important;
+  justify-content: center !important;
+}
+
+.grid .card {
+  width: 320px !important;
+}
+
+.card {
+  background: #0a0a0a;
+  padding: 1rem;
+  border-radius: 14px;
+  flex: 1 1 280px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  transition: background 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === Card Header === */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.coin-icon {
+  width: 50px;
+  height: 50px;
+  margin-right: 1rem;
+  object-fit: contain;
+  border-radius: 4px;
+  background-color: #0a0a0a;
+}
+
+.coin-icon-large {
+  width: 50px;
+  height: 50px;
+  margin-right: 1rem;
+  object-fit: contain;
+  border-radius: 6px;
+  background-color: #0a0a0a;
+}
+
+.change-btn {
+  margin-left: auto;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+  
+/* === Fields === */
+.field {
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.field-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.field-row .field.percent {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+}
+
+.up {
+  color: #a6e3a1; /* light green */
+}
+
+.down {
+  color: #f38ba8; /* light red */
+}
+
+.delta-zero {
+  color: #ffffff; /* white */
+}
+
+.field.compared-to {
+  background: rgba(0, 255, 255, 0.05);
+  color: #66ffff;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* === Signal styles === */
+.field.signal {
+  font-weight: bold;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  /* Remove background override to allow signal-specific backgrounds */
+  font-family: "Raleway", sans-serif;
+  letter-spacing: 0.05em;
+  /* Remove fixed width to allow flexible sizing */
+  min-width: unset;
+  max-width: unset;
+  width: 100%;
+  flex-grow: 1;
+  text-align: center;
+  box-sizing: border-box;
+  line-height: 1.4;
+  min-height: 2.8rem;
+}
+
+/* === Highlight effect === */
+.fade-highlight {
+  animation: fade 1s ease-out forwards;
+}
+
+@keyframes fade {
+  0% {
+    background-color: rgba(255, 255, 0, 0.3);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+}
+
+/* === Slider Section === */
+.slider-section-horizontal {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.slider-box {
+  margin-top: 1.5rem;
+  flex: 1 1 45%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem;
+  background-color: #0a0a0a;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.slider-label {
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.slider-desc {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 0.35rem;
+  margin-bottom: -0.05rem;
+  line-height: 1.4;
+}
+
+.slider-desc strong {
+  color: #fff;
+}
+
+input[type='range'].modern-slider {
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to left, #4bc67d 30%, #f1c40f 45%, #b94a48 99%);
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type='range'].modern-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #fff;
+  border: 4px solid #4bc67d;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+input[type='range'].modern-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+input[type='range'].modern-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  background: #fff;
+  border: 4px solid #4bc67d;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+input[type='range'].modern-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* === Signal History Log === */
+.modern-dark-signal-log {
+  background-color: #0a0a0a;
+  color: #cdd6f4;
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-family: 'Raleway', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  margin-top: 20px;
+}
+
+.modern-dark-signal-log h3 {
+  margin-top: 0px;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #66ffff;
+  user-select: none;
+  position: sticky;
+  top: 0;
+  background-color: #0a0a0a;
+  z-index: 10;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.modern-dark-log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modern-dark-log-entry {
+  display: flex;
+  justify-content: space-between;
+  background-color: #0a0a0a;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  box-shadow: inset 0 0 5px #000000aa;
+  transition: background-color 0.3s ease;
+  user-select: text;
+}
+
+.modern-dark-log-entry:hover {
+  background-color: #181818;
+}
+
+.log-time {
+  flex: 1 1 30%;
+  color: #ffffff;
+  font-family: 'Raleway', sans-serif;
+  align-items: center;
+  user-select: text;
+}
+
+.log-coin {
+  flex: 1 1 30%;
+  font-weight: 600;
+  color: #f38ba8;
+  text-transform: uppercase;
+  user-select: text;
+}
+
+.card-header h2 {
+  font-size: 1.4rem;
+  font-weight: 750;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.log-signal {
+  flex: 1 1 40%;
+  font-weight: 700;
+  text-align: right;
+  user-select: text;
+}
+
+/* Signal color coding for signal history log - revert to font colors only */
+.signal-buy .log-signal {
+  color: #a6e3a1; /* green */
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-weight: normal;
+}
+
+.signal-caution-buy .log-signal {
+  color: #f9e2af; /* yellow */
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-weight: normal;
+}
+
+.signal-sell .log-signal {
+  color: #f38ba8; /* red */
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-weight: normal;
+}
+
+.signal-caution-sell .log-signal {
+  color: #fab387; /* orange */
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-weight: normal;
+}
+
+.signal-hold .log-signal {
+  color: #89b4fa; /* blue */
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-weight: normal;
+}
+
+/* Signal color coding and background for signals on crypto cards */
+.field.signal.signal-buy {
+  color: #ffffff; /* white font */
+  background-color: #28a745; /* bright green background */
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.field.signal.signal-caution-buy {
+  color: #000000; /* black font */
+  background-color: #fff3cd; /* bright yellow background */
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.field.signal.signal-sell {
+  color: #ffffff; /* white font */
+  background-color: #dc3545; /* bright red background */
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.field.signal.signal-caution-sell {
+  color: #000000; /* black font */
+  background-color: #f8d7da; /* light red/pink background */
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.field.signal.signal-hold {
+  color: #89b4fa; /* blue font */
+  background-color: transparent;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+/* === Sidebar Drawer === */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100%;
+  background-color: #0a0a0a;
+  border-left: 2px solid #0a0a0a;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Raleway', sans-serif;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+.sidebar.open {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  will-change: transform, opacity;
+  pointer-events: auto;
+}
+.sidebar.close {
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.search-input {
+  background: #1c1b1b;
+  color: #fff;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+}
+
+.coin-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 4px;
+}
+
+.coin-list button {
+  background: #0f0f0f;
+  border: 1px solid #0a0a0a;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: "Raleway", sans-serif;
+  font-size: medium;
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  height: 50px;
+}
+
+.coin-list button:hover {
+  background: #171717;
+}
+
+/* Modern Scrollbar for coin-list */
+.coin-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #0a0a0a;
+  font-family: 'Raleway', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.coin-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.coin-list::-webkit-scrollbar-track {
+  background: #0a0a0a;
+  border-radius: 10px;
+}
+
+.coin-list::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+.coin-list::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* === Change Button === */
+.change-btn {
+  background: #00ddff51;
+  color: #fff;
+  border: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.5s ease;
+  font-family: 'Raleway', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes rainbowCycle {
+  0% { color: red; }
+  14% { color: orange; }
+  28% { color: yellow; }
+  42% { color: green; }
+  57% { color: blue; }
+  71% { color: indigo; }
+  85% { color: violet; }
+  100% { color: red; }
+}
+
+@keyframes rgb_anim {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(360deg);
+  }
+  to {
+    filter: hue-rotate(0deg);
+  }
+}
+
+.notify-enabled-label {
+  font-weight: bold;
+  color: #ff6f00;
+  filter:
+    drop-shadow(0 0 5px #ff6f00)
+    drop-shadow(0 0 10px #ff6f00)
+    drop-shadow(0 0 20px #ff6f00)
+    drop-shadow(0 0 30px #ff6f00)
+    drop-shadow(0 0 40px #ff6f00)
+    drop-shadow(0 0 50px #ff6f00);
+  animation: rgb_anim 10s linear infinite;
+  text-shadow:
+    0 0 5px #ff6f00,
+    0 0 10px #ff6f00,
+    0 0 20px #ff6f00,
+    0 0 30px #ff6f00,
+    0 0 40px #ff6f00,
+    0 0 50px #ff6f00;
+}
+
+/* Notification toggle switch */
+.notification-toggle {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  vertical-align: middle;
+}
+
+.notification-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.notification-toggle .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 22px;
+}
+
+.notification-toggle .slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.notification-toggle input:checked + .slider {
+  background-color: #00ddff;
+}
+
+.notification-toggle input:checked + .slider:before {
+  transform: translateX(18px);
+}
+
+.change-btn:hover {
+  background: #1c1c1c;
+}
