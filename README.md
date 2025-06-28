@@ -1,6 +1,6 @@
 # 🪙 CRYPTO BOARD
 
-![](Homepage.png)
+![](Images/Homepage.png)
 Crypto Board is an AI-powered crypto platform built on ICP, offering real-time analysis, predictions, and community-driven insights for traders
 
 ---
@@ -53,7 +53,7 @@ You can access the Live Demo Website here:
 
 - 🌐 Web 3.0 Based
   
-![](ai.jpg)
+![](Images/ai.jpg)
 ---
 
 ## 💻 Future Plans
@@ -87,7 +87,7 @@ Backend: RUST
 Deployment: Internet Computer Protocol (ICP)
 
 ---
-![](track.jpg)
+![](Images/track.jpg)
 
 ## 🔴 Demo Video
 
