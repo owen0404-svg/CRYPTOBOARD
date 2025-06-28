@@ -93,7 +93,7 @@ Deployment: Internet Computer Protocol (ICP)
 
 You can check the Video Demo here:
 
-🔗 [Crypto Board live demo video](https://youtu.be/7EkBTHwwPp8?si=pLQkmJvnYSrcpj2y)
+🔗 [Crypto Board live demo video](https://www.youtube.com/watch?v=URBXo0Ulzfg)
 
 ---
 
