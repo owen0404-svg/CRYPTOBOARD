@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "canisters": {
+    "cryptotracker_backend": {
+      "type": "rust",
+      "package": "cryptotracker_backend",
+      "candid": "src/cryptotracker_backend/cryptotracker_backend.did",
+      "wasm": "target/wasm32-unknown-unknown/release/cryptotracker_backend.wasm"
+    },
+    "cryptotracker_frontend": {
+      "type": "assets",
+      "source": ["src/cryptotracker_frontend/dist"],
+      "build": "npm install",
+      "post_build": "npm run build",
+      "build_root": "src/cryptotracker_frontend"
+    }
+  },
+  "defaults": {
+    "build": {},
+    "start": {
+      "clean": true,
+      "background": false
+    }
+  },
+  "networks": {
+    "local": {
+      "type": "ephemeral"
+    },
+    "ic": {
+      "type": "persistent",
+      "providers": ["https://ic0.app"]
+    }
+}}
