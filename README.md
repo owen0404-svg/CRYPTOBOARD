@@ -17,7 +17,7 @@ Crypto Board is a groundbreaking crypto platform that combines blockchain techno
 
 You can access the Presentation here:
 
-🔗 [Introduction to Crypto Board](https://drive.google.com/file/d/15VX4U0Ab3zrX80sNkZdLg6MwdMerfv7-/view?usp=sharing)
+🔗 [Introduction to Crypto Board](https://drive.google.com/file/d/1OqwTR2lNP8RGCVVIIDzzHy29ZcvHxsf-/view?usp=sharing)
 
 ---
 
