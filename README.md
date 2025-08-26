@@ -1,7 +1,7 @@
 # 🪙 CRYPTO BOARD
 
 ![](Images/Homepage.png)
-Crypto Board is an AI-powered crypto platform built on ICP, offering real-time analysis, predictions, and community-driven insights for traders
+Crypto Board is an AI-powered crypto platform built on ICP, offering real-time analysis, predictions, and AI-driven insights for traders or investors
 
 ---
 
@@ -17,17 +17,10 @@ Crypto Board is a groundbreaking crypto platform that combines blockchain techno
 
 You can access the Presentation here:
 
-🔗 [Introduction to Crypto Board](https://drive.google.com/file/d/1OqwTR2lNP8RGCVVIIDzzHy29ZcvHxsf-/view?usp=sharing)
+🔗 [Introduction to Crypto Board](https://drive.google.com/file/d/159OzsXfqKYea1tBTO5Fhy-iId9Ukpp8K/view?usp=sharing)
 
 ---
 
-## 🌐 Access the Live Demo
-
-You can access the Live Demo Website here:
-
-🔗 [Crypto Board Demo](https://pvbkg-eaaaa-aaaao-a4lsa-cai.icp0.io/)
-
----
 
 ## 🚀 Features
 
@@ -35,17 +28,11 @@ You can access the Live Demo Website here:
 
 - 📰 News Sentiment Analysis
 
-- 🧑🏻‍💻 Easy to use Technical Analysis Canvas
-
-- 🗣️ Community for Crypto enthusiasts
+- 🧑🏻‍💻 AI powered Technical Analysis
 
 - 📈 Detailed Dashboard with live trends and prices
 
-- 💸 Responsive Price Tracker with Buy and Sell Signals
-
-- 📱 Doomscroll on Crypto Related Shorts
-
-- 🎮 Games for bored users Deployed on ICP
+- 💸 Responsive Price Tracker
 
 - 🌐 Responsive UI for all Users
 
@@ -93,7 +80,7 @@ Deployment: Internet Computer Protocol (ICP)
 
 You can check the Video Demo here:
 
-🔗 [Crypto Board live demo video](https://www.youtube.com/watch?v=URBXo0Ulzfg)
+🔗 [Crypto Board live demo video](https://drive.google.com/file/d/12t26YTBTAZHtInVP8Dy-deugXs9NAexM/view?usp=sharing )
 
 ---
 
