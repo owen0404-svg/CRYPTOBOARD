@@ -74,7 +74,7 @@ Backend: RUST
 Deployment: Internet Computer Protocol (ICP)
 
 ---
-![](Images/track.jpg)
+
 
 ## 🔴 Demo Video
 
